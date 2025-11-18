@@ -1,4 +1,3 @@
-
 #ifndef MEDIANA_H
 #define MEDIANA_H
 
