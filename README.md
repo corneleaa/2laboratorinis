@@ -56,6 +56,8 @@ Naudota **klasės (class)** versija, 1 000 000 studentų, strategija 3 (optimizu
 | -O1                 | 2.827848       | 2.696453       | 2.727201       | **2.750501** | 85             |
 | -O2                 | 2.727996       | 2.645678       | 2.653861       | **2.675845** | 85             |
 | -O3                 | 2.675905       | 2.679350       | 2.580973       | **2.645409** | 85             |
+
+
 **Išvada:**
 Atlikus programos veikimo laiko analizę su skirtingais kompiliatoriaus optimizavimo flagais (-O1, -O2, -O3), matyti, kad optimizavimo lygis turi aiškią ir nuoseklią įtaką bendram veikimo greičiui. Mažiausią greitį demonstravo versija, sukompiliuota naudojant -O1 flagą, kadangi šis atliko tik bazines optimizacijas. Naudojant -O2 našumas pagerėjo, o -O3 suteikė dar šiek tiek papildomo greičio dėl agresyvesnių optimizavimo technikų
 Kadangi visų trijų versijų `.exe` failų dydis buvo **vienodas (85 KB)**, galima teigti, kad **`-O3` yra optimalus pasirinkimas**, užtikrinantis geriausią našumo ir dydžio santykį be papildomo atminties sąnaudos augimo.
