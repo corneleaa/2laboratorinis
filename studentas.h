@@ -65,7 +65,7 @@ Container nuskaitytiIsFailoT(const std::string& failas) {
         return grupe;
     }
     std::string eil;
-    std::getline(in, eil); // header
+    std::getline(in, eil); 
     while (std::getline(in, eil)) {
         if (eil.empty()) continue;
         std::istringstream iss(eil);
