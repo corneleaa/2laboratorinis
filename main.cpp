@@ -73,7 +73,6 @@ int main() {
             s.setEgzaminas(egz);
             s.perskaiciuoti(vidurkis);
 
-            // įdedam į vektorių ir parodom adresą konteineryje
             Studentas& ref = gr.emplace_back(s);
             cout << "Objekto adresas atmintyje (saugojamas konteineryje): " << &ref << "\n";
         }
