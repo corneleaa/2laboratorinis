@@ -43,11 +43,7 @@ Programa leidžia:
 | class   | 1000000           | 11.184668      |  11.123527     |     11.141683  | 11.149959    |
 
 **Išvada:**
-Struktūrinė (struct) realizacija, pasirodė šiek tiek greitesnė už klases (class) visose failų apimtyse.
-Galima daryti išvadą, kad optimizuotas kodas ir efektyvesnė atminties tvarkyba kompiliatoriaus lygiu sumažino skirtumą tarp struct ir class.
-Vidutiniškai, klasės versija buvo apie 20–25 % spartesnė, o didėjant duomenų kiekiui skirtumas išliko stabilus.
-Taip pat pastebėta, kad veikimo laikas didėja beveik linijiškai augant įrašų skaičiui.
-
+Palyginus struct ir class realizacijų veikimo spartą naudojant tą pačią aplinką, tą patį konteinerį (vector), tą pačią dalijimo strategiją (strategija Nr. 3) ir identiškus įvesties failus, matyti ryški ir nuosekli tendencija: struktūra visais atvejais yra reikšmingai greitesnė už klasę.
 ---
 
 ## Kompiliatoriaus optimizavimo flagų analizė (`-O1`, `-O2`, `-O3`)
@@ -79,11 +75,6 @@ Kadangi visų trijų versijų `.exe` failų dydis buvo **vienodas (85 KB)**, gal
 
 ---
 
-## Išvados
-
-
----
-
 ## Versijų istorija
 
 | Versija | Aprašas            | Pakeitimai                                               |
@@ -93,7 +84,3 @@ Kadangi visų trijų versijų `.exe` failų dydis buvo **vienodas (85 KB)**, gal
 
 ---
 
-## Repozitorijos informacija
-
-
----
