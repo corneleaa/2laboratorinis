@@ -35,15 +35,15 @@ Programa leidžia:
 
 | Versija | Studentų skaičius | Bandymas 1 (s) | Bandymas 2 (s) | Bandymas 3 (s) | Vidurkis (s) |
 | ------- | ----------------- | -------------- | -------------- | -------------- | ------------ |
-| struct  | 10000             |  0.0493194     |    0.0499338   |  0.050816      |
-| class   | 10000             |     
-| struct  | 100000            | 0.608104       |0.600919        |   0.600398     |
-| class   | 100000            |  
-| struct  | 1000000           | 3.30546        |     3.31671    |     3.30523    |
-| class   | 1000000           | 
+| struct  | 10000             |  0.0493194     |    0.0499338   |  0.050816      | 0.050023     |
+| class   | 10000             | 0.167645       |   0.163228     |    0.162441    | 0,164438     |
+| struct  | 100000            | 0.608104       |0.600919        |   0.600398     | 0.603141     |
+| class   | 100000            | 1.616947       |  1.607257      |   1.604870     | 1.609691     |
+| struct  | 1000000           | 3.30546        |     3.31671    |     3.30523    | 3.09133      |
+| class   | 1000000           | 11.184668      |  11.123527     |     11.141683  | 11.149959    |
 
 **Išvada:**
-Klasės (class) realizacija, pasirodė šiek tiek greitesnė už struktūrinę (struct) visose failų apimtyse.
+Struktūrinė (struct) realizacija, pasirodė šiek tiek greitesnė už klases (class) visose failų apimtyse.
 Galima daryti išvadą, kad optimizuotas kodas ir efektyvesnė atminties tvarkyba kompiliatoriaus lygiu sumažino skirtumą tarp struct ir class.
 Vidutiniškai, klasės versija buvo apie 20–25 % spartesnė, o didėjant duomenų kiekiui skirtumas išliko stabilus.
 Taip pat pastebėta, kad veikimo laikas didėja beveik linijiškai augant įrašų skaičiui.
@@ -57,12 +57,11 @@ Naudota **klasės (class)** versija, 1 000 000 studentų, strategija 3 (optimizu
 
 | Optimizavimo flagas | Bandymas 1 (s) | Bandymas 2 (s) | Bandymas 3 (s) | Vidurkis (s) | EXE dydis (KB) |
 | ------------------- | -------------- | -------------- | -------------- | ------------ | -------------- |
-| -O1                 | 2.700983       | 2.631873       | 2.633102       | **2.6553**   | 85             |
-| -O2                 | 2.663647       | 2.600671       | 2.704792       | **2.6564**   | 85             |
-| -O3                 | 2.661941       | 2.596576       | 2.589643       | **2.6161**   | 85             |
+| -O1                 | 2.827848       | 2.696453       | 2.727201       | **2.750501** | 85             |
+| -O2                 | 2.727996       | 2.645678       | 2.653861       | **2.675845** | 85             |
+| -O3                 | 2.675905       | 2.679350       | 2.580973       | **2.645409** | 85             |
 **Išvada:**
-Kompiliatoriaus optimizavimo flagai turėjo matomą, nors ir nedidelį, poveikį veikimo laikui.
-Tarp `-O1` ir `-O3` skirtumas siekia apie **1.5 %**, tačiau `-O3` užtikrino **stabiliausią ir trumpiausią** vykdymo laiką (~2.62 s).
+Atlikus programos veikimo laiko analizę su skirtingais kompiliatoriaus optimizavimo flagais (-O1, -O2, -O3), matyti, kad optimizavimo lygis turi aiškią ir nuoseklią įtaką bendram veikimo greičiui. Mažiausią greitį demonstravo versija, sukompiliuota naudojant -O1 flagą, kadangi šis atliko tik bazines optimizacijas. Naudojant -O2 našumas pagerėjo, o -O3 suteikė dar šiek tiek papildomo greičio dėl agresyvesnių optimizavimo technikų
 Kadangi visų trijų versijų `.exe` failų dydis buvo **vienodas (85 KB)**, galima teigti, kad **`-O3` yra optimalus pasirinkimas**, užtikrinantis geriausią našumo ir dydžio santykį be papildomo atminties sąnaudos augimo.
 
 ---
