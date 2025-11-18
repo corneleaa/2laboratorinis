@@ -1,20 +1,22 @@
 #include "studentas.h"
+#include <cstdlib>
+
 double vidurkis(const std::vector<int>& v) {
     if (v.empty()) return 0.0;
-    double suma = 0.0;
-    for (int x : v) suma += x;
-    return suma / static_cast<double>(v.size());
+    double s = 0;
+    for (int x : v) s += x;
+    return s / v.size();
 }
 
 double mediana(const std::vector<int>& v) {
     if (v.empty()) return 0.0;
-    std::vector<int> tmp = v;
-    std::sort(tmp.begin(), tmp.end());
-    std::size_t n = tmp.size();
+    std::vector<int> t = v;
+    std::sort(t.begin(), t.end());
+    int n = t.size();
     if (n % 2 == 0)
-        return (tmp[n/2 - 1] + tmp[n/2]) / 2.0;
+        return (t[n/2 - 1] + t[n/2]) / 2.0;
     else
-        return tmp[n/2];
+        return t[n/2];
 }
 
 Studentas::Studentas() : egzaminas_(0), galutinis_(0.0) {}
@@ -22,7 +24,6 @@ Studentas::~Studentas() {
     vardas_.clear();
     pavarde_.clear();
     nd_.clear();
-    nd_.shrink_to_fit();
     egzaminas_ = 0;
     galutinis_ = 0.0;
 }
@@ -45,7 +46,7 @@ double Studentas::skaiciuotiGalutini(double (*f)(const std::vector<int>&)) const
 }
 
 void Studentas::perskaiciuoti(double (*f)(const std::vector<int>&)) {
-    galutinis_ = 0.4 * f(nd_) + 0.6 * egzaminas_;
+    galutinis_ = skaiciuotiGalutini(f);
 }
 
 void Studentas::spausdinti(std::ostream& os) const {
@@ -69,17 +70,17 @@ std::vector<Studentas> nuskaitytiIsFailo(const std::string& failas) {
     return nuskaitytiIsFailoT<std::vector<Studentas>>(failas);
 }
 
-void isvestiStudentus(const std::vector<Studentas>& grupe, const std::string& failas) {
-    isvestiStudentusT(grupe, failas);
+void isvestiStudentus(const std::vector<Studentas>& gr, const std::string& failas) {
+    isvestiStudentusT(gr, failas);
 }
 
 Studentas generuotiStudenta(int id) {
     Studentas s;
     s.setVardas("Vardas" + std::to_string(id));
     s.setPavarde("Pavarde" + std::to_string(id));
-    std::vector<int> nd;
+    std::vector<int> nd(5);
     nd.reserve(5);
-    for (int i = 0; i < 5; ++i) nd.push_back(1 + std::rand() % 10);
+    for (int i = 0; i < 5; ++i)  nd[i] = 1 + std::rand() % 10;
     s.setNd(nd);
     s.setEgzaminas(1 + std::rand() % 10);
     s.perskaiciuoti(vidurkis);
@@ -97,69 +98,92 @@ void generuotiFaila(const std::string& failoVardas, int kiek) {
     }
 }
 
-static inline bool isVargs(const Studentas& s) {
-    return s.galutinis() < 5.0;
-}
-
-
 void split_strat1_vector(const std::vector<Studentas>& src,
                          std::vector<Studentas>& vargs,
-                         std::vector<Studentas>& kiet) {
+                         std::vector<Studentas>& kiet)
+{
     vargs.clear();
     kiet.clear();
-    std::partition_copy(src.begin(), src.end(),
-                        std::back_inserter(vargs),
-                        std::back_inserter(kiet),
-                        isVargs);
-}
 
-void split_strat2_vector(std::vector<Studentas>& all,
-                         std::vector<Studentas>& vargs) {
-    vargs.clear();
-    auto mid = std::partition(all.begin(), all.end(), isVargs);
-    std::move(all.begin(), mid, std::back_inserter(vargs));
-    all.erase(all.begin(), mid);
-}
-
-void split_strat3_vector(std::vector<Studentas>& all,
-                         std::vector<Studentas>& vargs) {
-    vargs.clear();
-    vargs.reserve(all.size() / 2);
-    std::remove_copy_if(all.begin(), all.end(),
-                        std::back_inserter(vargs),
-                        [](const Studentas& s){ return !isVargs(s); });
-    auto it = std::remove_if(all.begin(), all.end(), isVargs);
-    all.erase(it, all.end());
-    all.shrink_to_fit();
-    vargs.shrink_to_fit();
+    for (const auto& s : src) {
+        if (s.galutinis() < 5.0)
+            vargs.push_back(s);
+        else
+            kiet.push_back(s);
+    }
 }
 
 void split_strat1_list(const std::list<Studentas>& src,
                        std::list<Studentas>& vargs,
-                       std::list<Studentas>& kiet) {
+                       std::list<Studentas>& kiet)
+{
     vargs.clear();
     kiet.clear();
-    std::partition_copy(src.begin(), src.end(),
-                        std::back_inserter(vargs),
-                        std::back_inserter(kiet),
-                        isVargs);
+
+    for (const auto& s : src) {
+        if (s.galutinis() < 5.0)
+            vargs.push_back(s);
+        else
+            kiet.push_back(s);
+    }
+}
+void split_strat2_vector(std::vector<Studentas>& grupe,
+                         std::vector<Studentas>& vargs)
+{
+    vargs.clear();
+    vargs.reserve(grupe.size());
+
+    size_t newSize = 0;
+
+    for (size_t i = 0; i < grupe.size(); i++) {
+
+        if (grupe[i].galutinis() < 5.0) {
+            vargs.push_back(grupe[i]);
+        }
+        else {
+            grupe[newSize++] = std::move(grupe[i]);
+        }
+    }
+
+    grupe.erase(grupe.begin() + newSize, grupe.end());
 }
 
-void split_strat2_list(std::list<Studentas>& all,
-                       std::list<Studentas>& vargs) {
+void split_strat2_list(std::list<Studentas>& grupe,
+                       std::list<Studentas>& vargs)
+{
     vargs.clear();
-    for (auto it = all.begin(); it != all.end(); ) {
-        if (isVargs(*it)) {
-            auto cur = it++;
-            vargs.splice(vargs.end(), all, cur);
+
+    for (auto it = grupe.begin(); it != grupe.end(); ) {
+        if (it->galutinis() < 5.0) {
+            vargs.push_back(*it);
+            it = grupe.erase(it);
         } else {
             ++it;
         }
     }
 }
+void split_strat3_vector(std::vector<Studentas>& all,
+                         std::vector<Studentas>& vargs)
+{
+    vargs.clear();
+    vargs.reserve(all.size() / 2);
+
+    std::remove_copy_if(all.begin(), all.end(),
+                        std::back_inserter(vargs),
+                        [](const Studentas& s){ return !(s.galutinis() < 5.0); });
+
+    auto it = std::remove_if(all.begin(), all.end(),
+                             [](const Studentas& s){ return s.galutinis() < 5.0; });
+
+    all.erase(it, all.end());
+
+    all.shrink_to_fit();
+    vargs.shrink_to_fit();
+}
 
 void split_strat3_list(std::list<Studentas>& all,
-                       std::list<Studentas>& vargs) {
+                       std::list<Studentas>& vargs)
+{
     split_strat2_list(all, vargs);
 }
 
