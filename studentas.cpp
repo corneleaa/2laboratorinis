@@ -92,7 +92,6 @@ void generuotiFaila(const std::string& failoVardas, int kiek) {
     for (int i = 1; i <= kiek; ++i) {
         Studentas s = generuotiStudenta(i);
         out << s.vardas() << " " << s.pavarde() << " ";
-        // sugeneruojam ND ir egzaminą į failą (nebūtinai tas pats kaip objekte – testams nesvarbu)
         for (int j = 0; j < 5; ++j) out << (std::rand() % 10 + 1) << " ";
         out << (std::rand() % 10 + 1) << "\n";
     }
@@ -161,7 +160,6 @@ void split_strat2_list(std::list<Studentas>& all,
 
 void split_strat3_list(std::list<Studentas>& all,
                        std::list<Studentas>& vargs) {
-    // šiuo atveju 3 strategija = optimizuota 2
     split_strat2_list(all, vargs);
 }
 
