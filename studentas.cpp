@@ -26,6 +26,8 @@ Studentas::~Studentas() {
     vardas_.clear();
     pavarde_.clear();
     nd_.clear();
+    egzaminas_ = 0;
+    galutinis_ = 0.0;
 }
 
 double vidurkis(const std::vector<int>& v) {
@@ -61,29 +63,17 @@ std::ostream& operator<<(std::ostream& os, const Studentas& s) {
        << s.galutinis_;
     return os;
 }
-
-Studentas::Studentas() : egzaminas_(0), galutinis_(0.0) {}
-Studentas::~Studentas() {
-    vardas_.clear();
-    pavarde_.clear();
-    nd_.clear();
-    egzaminas_ = 0;
-    galutinis_ = 0.0;
-}
-
 Studentas::Studentas(std::istream& is) {
     readStudent(is);
 }
-
 std::istream& Studentas::readStudent(std::istream& is) {
     is >> vardas_ >> pavarde_;
-    nd_.resize(5);
+    nd_.assign(5, 0);
     for (int i = 0; i < 5; ++i) is >> nd_[i];
     is >> egzaminas_;
     galutinis_ = skaiciuotiGalutini(vidurkis);
     return is;
 }
-
 double Studentas::skaiciuotiGalutini(double (*f)(const std::vector<int>&)) const {
     return 0.4 * f(nd_) + 0.6 * egzaminas_;
 }
