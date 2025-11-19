@@ -1,6 +1,33 @@
 #include "studentas.h"
 #include <cstdlib>
 
+Studentas::Studentas() : egzaminas_(0), galutinis_(0.0) {}
+
+Studentas::Studentas(const Studentas& other)
+    : vardas_(other.vardas_),
+      pavarde_(other.pavarde_),
+      nd_(other.nd_),
+      egzaminas_(other.egzaminas_),
+      galutinis_(other.galutinis_) {}
+
+Studentas& Studentas::operator=(const Studentas& other)
+{
+    if (this != &other) {
+        vardas_ = other.vardas_;
+        pavarde_ = other.pavarde_;
+        nd_ = other.nd_;
+        egzaminas_ = other.egzaminas_;
+        galutinis_ = other.galutinis_;
+    }
+    return *this;
+}
+
+Studentas::~Studentas() {
+    vardas_.clear();
+    pavarde_.clear();
+    nd_.clear();
+}
+
 double vidurkis(const std::vector<int>& v) {
     if (v.empty()) return 0.0;
     double s = 0;
