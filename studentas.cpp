@@ -45,6 +45,22 @@ double mediana(const std::vector<int>& v) {
     else
         return t[n/2];
 }
+std::istream& operator>>(std::istream& is, Studentas& s) {
+    s.nd_.assign(5, 0);
+    is >> s.vardas_ >> s.pavarde_;
+    for (int i = 0; i < 5; i++) is >> s.nd_[i];
+    is >> s.egzaminas_;
+    s.perskaiciuoti(vidurkis);
+    return is;
+}
+
+std::ostream& operator<<(std::ostream& os, const Studentas& s) {
+    os << std::left << std::setw(12) << s.vardas_
+       << std::setw(12) << s.pavarde_
+       << std::setw(10) << std::fixed << std::setprecision(2)
+       << s.galutinis_;
+    return os;
+}
 
 Studentas::Studentas() : egzaminas_(0), galutinis_(0.0) {}
 Studentas::~Studentas() {
