@@ -122,6 +122,18 @@ int main() {
             "3) Optimizuota greičiausia\n";
     int strategija;
     cin >> strategija;
+     {
+        Studentas a;
+        a.setVardas("Testas");
+        a.setPavarde("Kopijavimas");
+
+        Studentas b = a;  
+        Studentas c;
+        c = a;             
+        std::cout << "Rule of Three test:\n";
+        std::cout << b.vardas() << " " << b.pavarde() << "\n";
+        std::cout << c.vardas() << " " << c.pavarde() << "\n";
+    }
 
     auto t_total0 = std::chrono::high_resolution_clock::now();
 
