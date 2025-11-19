@@ -32,8 +32,10 @@ private:
 
 public:
     Studentas();
-    Studentas(std::istream& is);
+    Studentas(const Studentas& other);
+    Studentas& operator=(const Studentas& other);
     ~Studentas();
+    Studentas(std::istream& is);
 
     inline std::string vardas() const { return vardas_; }
     inline std::string pavarde() const { return pavarde_; }
@@ -48,6 +50,8 @@ public:
     double skaiciuotiGalutini(double (*f)(const std::vector<int>&)) const;
     void perskaiciuoti(double (*f)(const std::vector<int>&));
     void spausdinti(std::ostream& os) const;
+    friend std::istream& operator>>(std::istream& is, Studentas& s);
+    friend std::ostream& operator<<(std::ostream& os, const Studentas& s);
 };
 
 bool comparePagalVarda(const Studentas&, const Studentas&);
