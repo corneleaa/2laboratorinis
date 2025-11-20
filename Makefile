@@ -1,43 +1,33 @@
-# Kompiliatorius ir bendri nustatymai
-CXX = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra
+#   Makefile Studentas v1.2
 
+# Kompiliatorius ir flag'ai
+CXX = g++
+CXXFLAGS = -std=c++17 -O2 -Wall -Wextra
+
+# Failai
 SRC = main.cpp studentas.cpp
 OBJ = $(SRC:.cpp=.o)
+EXEC = projektas
 
-TARGET = projektas
+# Default komanda
+all: $(EXEC)
 
-# ====== Numatytoji komanda: O2 optimizacija ======
-all: CXXFLAGS += -O2
-all: $(TARGET)
+# Linkinimas
+$(EXEC): $(OBJ)
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
-$(TARGET): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ)
-
-# ====== .o failų generavimas ======
+# Kompiliavimas .cpp → .o
 %.o: %.cpp studentas.h
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $<
 
-# ====== O1 testas ======
-O1: CXXFLAGS += -O1
-O1:
-	$(CXX) $(CXXFLAGS) -o progO1 $(SRC)
-
-# ====== O2 testas ======
-O2: CXXFLAGS += -O2
-O2:
-	$(CXX) $(CXXFLAGS) -o progO2 $(SRC)
-
-# ====== O3 testas ======
-O3: CXXFLAGS += -O3
-O3:
-	$(CXX) $(CXXFLAGS) -o progO3 $(SRC)
-
-# ====== Paleidimas ======
-run: $(TARGET)
-	./$(TARGET)
-
-# ====== Išvalymas ======
+# Išvalymas
 clean:
-	rm -f $(OBJ) $(TARGET) progO1 progO2 progO3
+	rm -f $(OBJ) $(EXEC)
+
+# Išvalyti viską + sukurti iš naujo
+rebuild: clean all
+
+# Paleidimas
+run: $(EXEC)
+	./$(EXEC)
 
