@@ -2,13 +2,18 @@
 #include <cstdlib>
 
 Studentas::Studentas() : egzaminas_(0), galutinis_(0.0) {}
+   // std::cout << "[Default ctor] Sukurtas objektas: " << this << std::endl;
 
 Studentas::Studentas(const Studentas& other)
     : vardas_(other.vardas_),
       pavarde_(other.pavarde_),
       nd_(other.nd_),
       egzaminas_(other.egzaminas_),
-      galutinis_(other.galutinis_) {}
+      galutinis_(other.galutinis_) {
+          //  std::cout << "[Copy assignment] Priskiriama iš "
+  //            << &other << " į " << this << std::endl;
+      }
+
 
 Studentas& Studentas::operator=(const Studentas& other)
 {
@@ -23,6 +28,7 @@ Studentas& Studentas::operator=(const Studentas& other)
 }
 
 Studentas::~Studentas() {
+     //  std::cout << "[Destructor] Naikinamas objektas: " << this << std::endl;
     vardas_.clear();
     pavarde_.clear();
     nd_.clear();
