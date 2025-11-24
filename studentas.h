@@ -1,6 +1,7 @@
 #ifndef STUDENTAS_H
 #define STUDENTAS_H
 
+#include "zmogus.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -18,11 +19,11 @@ double vidurkis(const std::vector<int>& v);
 double mediana(const std::vector<int>& v);
 
 inline double mediana_ref(const std::vector<int>& v) {
-    std::vector<int> tmp = v;
-    return mediana(tmp);
+    std::vector<int> t = v;
+    return mediana(t);
 }
 
-class Studentas {
+class Studentas : public Zmogus{
 private:
     std::string vardas_;
     std::string pavarde_;
