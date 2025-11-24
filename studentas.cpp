@@ -6,12 +6,11 @@
 #include <fstream>
 #include <sstream>
 
-Studentas::Studentas() : egzaminas_(0), galutinis_(0.0) {}
+Studentas::Studentas() : Zmogus(), egzaminas_(0), galutinis_(0.0) {}
    // std::cout << "[Default ctor] Sukurtas objektas: " << this << std::endl;
 
 Studentas::Studentas(const Studentas& other)
-    : vardas_(other.vardas_),
-      pavarde_(other.pavarde_),
+    : Zmogus(other.vardas_, other.pavarde_),
       nd_(other.nd_),
       egzaminas_(other.egzaminas_),
       galutinis_(other.galutinis_) {
