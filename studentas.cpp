@@ -1,5 +1,10 @@
 #include "studentas.h"
 #include <cstdlib>
+#include <algorithm>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <sstream>
 
 Studentas::Studentas() : egzaminas_(0), galutinis_(0.0) {}
    // std::cout << "[Default ctor] Sukurtas objektas: " << this << std::endl;
