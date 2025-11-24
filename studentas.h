@@ -25,8 +25,6 @@ inline double mediana_ref(const std::vector<int>& v) {
 
 class Studentas : public Zmogus{
 private:
-    std::string vardas_;
-    std::string pavarde_;
     std::vector<int> nd_;
     int egzaminas_;
     double galutinis_;
@@ -36,6 +34,7 @@ public:
     Studentas(const Studentas& other);
     Studentas& operator=(const Studentas& other);
     ~Studentas();
+
     Studentas(std::istream& is);
 
     inline std::string vardas() const { return vardas_; }
