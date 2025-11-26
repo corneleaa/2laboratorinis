@@ -11,8 +11,8 @@ Tai reiškia, kad ši klasė tik apibrėžia bendrą sąsają visoms išvestinė
 Zmogus z; 
 ```
 kompiliatorius pateikia klaidą. Ši ekrano nuotrauka pateikiama kataloge *screenshots/* ir yra naudojama įrodyti, kad abstraktumas realizuotas teisingai.
-<img width="877" height="161" alt="Screenshot 2025-11-27 at 00 08 05" src="https://github.com/user-attachments/assets/7760bc7d-b3d6-4d65-9b03-55970b5719a1" />
 
+<img width="880" height="143" alt="Screenshot 2025-11-27 at 00 09 35" src="https://github.com/user-attachments/assets/2cb5fa44-4763-4209-8458-43a9c430ce0d" />
 
 ## Išvestinė klasė *Studentas*
 Klasė *Studentas* paveldi *Zmogus* laukus ir papildo juos namų darbų masyvu, egzaminu ir galutinio balo logika. Kadangi klasė saugo dinamiškus duomenis (vector<int>), realizuota Rule of Three:
