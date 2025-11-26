@@ -1,45 +1,68 @@
-# Studentų informacinė sistema (v1.2)
+# v1.5 Studentų Valdymo Sistema  
+Ši projekto versija įgyvendina paveldėjimą, abstrakčią bazinę klasę *Zmogus*, iš jos išvestinę klasę *Studentas*, ir pilnai palaiko visą v1.2 logikos architektūrą: failų generavimą, skaitymą, rūšiavimą, strategijas, konteinerių pasirinkimą ir galutinio balo skaičiavimą pagal vidurkį arba medianą. Kodas papildytas Rule of Three realizacija ir išsamiai dokumentuotas.
 
-Ši programa realizuoja pilnai funkcionalią **Studentas** klasę, atitinkančią trijų metodų taisyklę (*Rule of Three*) ir turinčią perdengtus įvesties/išvesties operatorius (`operator>>`, `operator<<`). Sistemoje įgyvendinti trys duomenų įvedimo būdai (rankinis, iš failo ir automatinis generavimas) bei du išvedimo būdai (į ekraną ir į failą).
+## Abstrakti klasė *Zmogus*
+v1.5 versijoje *Zmogus* tampa bazine abstrakčia klase, skirta bendriems laukams aprašyti (vardas, pavardė). Jos objekto sukurti nebegalima, nes klasėje yra grynoji virtuali funkcija:
+```cpp
+virtual void spausdinti(std::ostream& os) const = 0;
+```
+Tai reiškia, kad ši klasė tik apibrėžia bendrą sąsają visoms išvestinėms klasėms, bet pati negali egzistuoti kaip atskiras objektas. Bandant sukurti:
+```cpp
+Zmogus z; 
+```
+kompiliatorius pateikia klaidą. Ši ekrano nuotrauka pateikiama kataloge *screenshots/* ir yra naudojama įrodyti, kad abstraktumas realizuotas teisingai.
+<img width="877" height="161" alt="Screenshot 2025-11-27 at 00 08 05" src="https://github.com/user-attachments/assets/7760bc7d-b3d6-4d65-9b03-55970b5719a1" />
 
-Programa palaiko `std::vector` ir `std::list` konteinerius, rikiavimą pagal vardą, pavardę arba galutinį balą, tris skaidymo strategijas bei pateikia veikimo laiko matavimus (skaitymas, rikiavimas, skaidymas, rašymas). Ši versija atitinka visus v1.2 reikalavimus ir yra parengta testavimui bei demonstravimui.
 
----
+## Išvestinė klasė *Studentas*
+Klasė *Studentas* paveldi *Zmogus* laukus ir papildo juos namų darbų masyvu, egzaminu ir galutinio balo logika. Kadangi klasė saugo dinamiškus duomenis (vector<int>), realizuota Rule of Three:
+* kopijavimo konstruktorius,
+* priskyrimo operatorius,
+* destruktorius.
 
-# 1. Studentas klasė ir Rule of Three
-
-Klasėje įgyvendinti šie trys specialieji metodai:
-
-- **Copy constructor**
-- **Copy assignment operator**
-- **Destructor**
-
-Rule of three veikimas
+Šie metodai užtikrina taisyklingą objektų kopijavimą ir resursų atlaisvinimą. Main funkcijoje specialiai įtrauktas Rule of Three demonstravimas:
+```cpp
 Studentas a;
-Studentas b = a;
+Studentas b = a; 
 Studentas c;
 c = a;
-**2. Įvesties ir išvesties operatoriai**
-operator>>
-Nuskaito studento:
-vardą
-pavardę
-5 namų darbus
-egzaminą
-iškart perskaičiuoja galutinį balą
-operator<<
-Gražiai suformatuotai išveda į ekraną ar į failą:
+```
+Tokiu būdu tikrinama, ar kopijavimo mechanizmas veikia korektiškai.
 
-Vardas      Pavarde     Galutinis
+## Programos veikimas ir 1.2 logikos išlaikymas
+Programa išlaiko identišką funkcionalumą kaip v1.2: galima generuoti failą, įvesti duomenis ranka arba skaityti iš jau esančio failo. Po duomenų nuskaitymo vartotojas gali pasirinkti, kaip skaičiuoti galutinį balą: pagal vidurkį, medianą arba abu. Tada prašoma pasirinkti konteinerio tipą (vector arba list), rikiavimo kriterijų ir strategiją, pagal kurią išskirstomi studentai į vargšiukus ir kietuolius.
 
-**Išvada**
-<img width="350" height="374" alt="Screenshot 2025-11-20 at 16 16 48" src="https://github.com/user-attachments/assets/ade0f416-0722-43e0-b85c-259a31407736" />
+## Naudojami algoritmai ir strategijos
+Visi ankstesni suskirstymo metodai yra palikti:
+* A+B kopijavimo metodas,
+* pašalinimo iš bendros grupės metodas,
+* optimizuota greičiausia strategija su `std::remove_if`.
 
-<img width="476" height="374" alt="Screenshot 2025-11-20 at 16 16 00" src="https://github.com/user-attachments/assets/10019093-4a90-4785-96ec-bfd997c5951a" />
-<img width="387" height="372" alt="Screenshot 2025-11-20 at 16 19 57" src="https://github.com/user-attachments/assets/59996a14-5968-4198-9267-c47d14f08d7f" />
-<img width="476" height="374" alt="Screenshot 2025-11-20 at 16 16 00" src="https://github.com/user-attachments/assets/55aeed0d-57c1-453b-9028-9d40b0950182" />
+Failų nuskaitymas atliekamas generiškai naudojant šabloninę funkciją `nuskaitytiIsFailoT`, leidžiančią naudoti tiek vector, tiek list konteinerius. Rezultatai automatiškai išvedami į katalogą *results/*.
 
-Programa pilnai realizuoja Studentas klasę ir visus v1.2 funkcionalumus, užtikrina patikimą duomenų apdorojimą bei leidžia atlikti efektyvią studentų analizę pagal įvairius kriterijus.
+## Lentelė: Programos komponentai v1.5
+| Komponentas | Aprašymas |
+|------------|-----------|
+| **Zmogus** | Abstrakti bazinė klasė su grynąja virtualia funkcija |
+| **Studentas** | Paveldėta klasė su ND, egzaminu ir galutinio balo logika |
+| **Rule of Three** | Kopijavimo konstruktorius, operator=, destruktorius |
+| **Failų skaitymas/generavimas** | Įgyvendinta identiškai kaip v1.2, išlaikant suderinamumą |
+| **Rūšiavimas** | Pagal vardą, pavardę, galutinį balą |
+| **Strategijos** | A+B, šalinimo, optimizuota su remove_if |
+| **Konteineriai** | vector, list |
+| **Abstraktumo demonstracija** | Kompiliatoriaus klaidos nuotrauka README |
+
+## Programos paleidimas
+Programą galima paleisti terminale:
+```
+make
+./programa
+```
+Paleidimo metu vartotojas mato meniu, kuriame pasirenka režimą, konteinerį, strategiją, rikiavimo būdą ir galutinio balo skaičiavimo metodą. Visi rezultatai įrašomi į *results/* aplanką.
+
+## Išvados
+v1.5 versija pilnai įgyvendina objektiškai orientuotą architektūrą, paremtą paveldėjimu ir abstrakčiomis klasėmis, išlaiko visą ankstesnę projekto logiką ir papildo ją aiškia struktūra bei tvarkinga Studentas klasės resursų vadyba. Programa veikia greitai, stabiliai ir yra lengvai plečiama ateities versijoms.
+
 
 ## Techninė aplinka
 
@@ -60,6 +83,7 @@ Programa pilnai realizuoja Studentas klasę ir visus v1.2 funkcionalumus, užtik
 | ------- | ------------------ | -------------------------------------------------------- |
 | v1.0    | Struct realizacija | Studentų rūšiavimas naudojant `struct`                   |
 | v1.1    | Class realizacija  | Naudojama `class Studentas`, destruktorius, flag analizė |
+| v1.2    | Rule of three      | įvedama Rule of three, persidengimo operatoriai          |
 
 ---
 
